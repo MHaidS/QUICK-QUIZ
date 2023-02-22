@@ -1,10 +1,12 @@
 // IN PROGRESS
 
-// console.log("hello world");
 const question = document.getElementById("question");
 // const choices = document.getElementsByClassName("choice-text");
 // convert to an array
 const choices = Array.from(document.getElementsByClassName("choice-text"));
+// const questionCounterText = document.getElementById("questionCounter");
+const progressText = document.getElementById("progressText");
+const scoreText = document.getElementById("score");
 
 let currentQuestion = {};
 let acceptingAnswers = false;
@@ -47,19 +49,24 @@ const MAX_QUESTIONS = 3;
 startGame = () => {
   questionCounter = 0;
   score = 0;
-  // take 'questions' array, spread out each of the items, put them into a new array & that's the available qs are going to be; 'availableQuestions' is the available copy of the 'questions[]'
   availableQuestions = [...questions];
-  console.log(availableQuestions);
+
   getNewQuestion();
 };
 
 getNewQuestion = () => {
-  // if there's no question left in the array or we used all the allowed number of questions (ex: 10 out of 100 only)
+  // if there's no questions left in the array or all the allowed number of questions are used up
   if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
+    localStorage.setItem("mostRecentScore", score);
+    // go to the end page
     return window.location.assign("/end.html");
   }
-
   questionCounter++;
+  progressText.innerText = `Question ${questionCounter} / ${MAX_QUESTIONS}`;
+  // Update the progress bar
+
+  progressBarFull.style.width = `${(questionCounter / MAX_QUESTIONS) * 100}%`;
+
   const questionIndex = Math.floor(Math.random() * availableQuestions.length);
   currentQuestion = availableQuestions[questionIndex];
   question.innerText = currentQuestion.question;
@@ -70,9 +77,8 @@ getNewQuestion = () => {
     const number = choice.dataset["number"];
     choice.innerText = currentQuestion["choice" + number];
   });
-  // this is going to take the availableQuestions[] array & we need to splice out the question that has just been used; the 'questionIndex' is going to tell us where to splice out 1; this is going to take the availableQuestions[] array & get rid of the question that has just been used, so we get a new question the nxt time around
+  // this is going to take the availableQuestions[] array & splice out the question that has just been used;
   availableQuestions.splice(questionIndex, 1);
-
   acceptingAnswers = true;
 };
 
@@ -87,18 +93,27 @@ choices.forEach((choice) => {
     const selectedChoice = e.target;
     const selectedAnswer = selectedChoice.dataset["number"];
 
+    const classToApply =
+      selectedAnswer == currentQuestion.answer ? "correct" : "incorrect";
+
+    if (classToApply === "correct") {
+      incrementScore(CORRECT_BONUS);
+    }
+
     // after answering a question, this is going to load a new one
-    getNewQuestion();
+    selectedChoice.parentElement.classList.add(classToApply);
+
+    setTimeout(() => {
+      selectedChoice.parentElement.classList.remove(classToApply);
+      getNewQuestion();
+    }, 1000);
   });
 });
 
-// will give a decimal bet. 0 & 1
-// Math.random()
-// 0.33063791789711683
-
-// to output an integer bet. 0 & 3
-// Math.floor(Math.random() * 3)
-// 0
+incrementScore = (num) => {
+  score += num;
+  scoreText.innerText = score;
+};
 
 // call startGame() function
 startGame();
