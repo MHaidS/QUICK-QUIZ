@@ -1,5 +1,7 @@
 // IN PROGRESS
 
+// The Array.from() static method creates a new, shallow-copied Array instance from an iterable or array-like object.
+
 const question = document.getElementById("question");
 // const choices = document.getElementsByClassName("choice-text");
 // convert to an array
@@ -55,11 +57,11 @@ startGame = () => {
 };
 
 getNewQuestion = () => {
-  // if there's no questions left in the array or all the allowed number of questions are used up
   if (availableQuestions.length === 0 || questionCounter >= MAX_QUESTIONS) {
     localStorage.setItem("mostRecentScore", score);
     // go to the end page
-    return window.location.assign("/end.html");
+    // return window.location.assign("/end.html");
+    return window.location.assign("end.html");
   }
   questionCounter++;
   progressText.innerText = `Question ${questionCounter} / ${MAX_QUESTIONS}`;
@@ -100,7 +102,6 @@ choices.forEach((choice) => {
       incrementScore(CORRECT_BONUS);
     }
 
-    // after answering a question, this is going to load a new one
     selectedChoice.parentElement.classList.add(classToApply);
 
     setTimeout(() => {
