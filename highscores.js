@@ -56,7 +56,7 @@ const highScores = JSON.parse(localStorage.getItem("highScores")) || [];
 //     .join("")
 // );
 // ************
-// the output is an array of strings & what map does is takes an incoming array (highScores[]) & allows you to convert each of those items to something new in a new array; so we're taking in a score obj & we're returning a string version of an li w/ all the details we need; .......
+// the output is an array of strings & what map does is it takes an incoming array (highScores[]) & allows you to convert each of those items to something new in a new array; so we're taking in a score obj & we're returning a string version of an li w/ all the details we need; .......
 // (5) ['<li class="high-score">bree-30</li>',
 // '<li class="high-score">claire-30</li>',
 // '<li class="high-score">david-20</li>',

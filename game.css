@@ -63,3 +63,27 @@
   background-color: #56a5eb;
   width: 0%;
 }
+
+/* <!-- 13. Create a Spinning Loader --> */
+/* https://www.w3schools.com/howto/howto_css_loader.asp */
+/* LOADER */
+/* 13.4 design the loader */
+#loader {
+  border: 1.6rem solid white;
+  border-radius: 50%;
+  border-top: 1.6rem solid #56a5eb;
+  width: 12rem;
+  height: 12rem;
+  /* 13.6 */
+  animation: spin 2s linear infinite;
+}
+
+/* 13.5 */
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
